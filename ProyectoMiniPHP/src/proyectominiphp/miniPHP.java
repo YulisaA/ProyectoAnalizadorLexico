@@ -18,10 +18,13 @@ public class miniPHP {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Analizer miniphp = new Analizer();           
+                miniphp.setVisible(true);
         String path = "C:/Users/DELL/Desktop/ProyectoAnalizadorLexico/ProyectoMiniPHP/src/proyectominiphp/Lexer.flex";
-        generarLexer(path);
+        //generateLexer(path);
+        
     }
-    public static void generarLexer(String path){
+    public static void generateLexer(String path){
         File file = new File(path);
         jflex.Main.generate(file);
 }
