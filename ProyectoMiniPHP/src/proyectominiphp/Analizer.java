@@ -12,8 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Analizer extends javax.swing.JFrame {
 
     File address;
     String addressFileOut;
+    String addressErrorsFileOut;
     /**
      * Creates new form Analizer
      */
@@ -103,36 +106,89 @@ public class Analizer extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            Read();
+            String root = new File(".").getCanonicalPath();
+            String path = root + "\\src\\proyectominiphp\\Lexer.flex";
+            generateLexer(path);
+            this.analizeLexer();
+            infoBox("Successful", "Missing File");
        } catch (IOException ex) {
             infoBox("Seleccionar un archivo", "Missing File");    
         }
     }//GEN-LAST:event_jButtonUploadActionPerformed
-
-    public void Read() throws FileNotFoundException, IOException {
-      String line;
-      FileReader f = new FileReader(jTextField.getText());
-      BufferedReader br = new BufferedReader(f);
+ 
+    public void analizeLexer() throws FileNotFoundException, IOException{   
+        Reader reader = new BufferedReader(new FileReader(jTextField.getText()));
+        Lexer lexer = new Lexer(reader);
+        String fileErrors = "";
+        int errors = 0;
+        
+        String name = address.getName();
+        String extension = name.substring(name.indexOf("."));
+        addressFileOut = address.getPath().replace(extension, ".out");
       
-      String name = address.getName();
-      String extension = name.substring(name.indexOf("."));
-      addressFileOut = address.getPath().replace(extension, ".out");
+        File fileOut = new File(addressFileOut);
+        BufferedWriter bw;
+        if(fileOut.exists()) {
+        //File exists
+            bw = new BufferedWriter(new FileWriter(fileOut));
+        } else {
+        //File does not exist
+            bw = new BufferedWriter(new FileWriter(fileOut));
+        }
+
+        addressErrorsFileOut = address.getPath().replace(name, "errors.out");
       
-      File fileOut = new File(addressFileOut);
-      BufferedWriter bw;
-      if(fileOut.exists()) {
-      //File exists
-         bw = new BufferedWriter(new FileWriter(fileOut));
-      } else {
-      //File does not exist
-         bw = new BufferedWriter(new FileWriter(fileOut));
-      } 
-
-      br.close();
-      bw.close();
-
-      infoBox("Archivo .hack finalizado con éxito. Se encuentra en la ruta " , "Finished."); 
+        File errorsFileOut = new File(addressErrorsFileOut);
+        BufferedWriter bw2;
+        if(errorsFileOut.exists()) {
+        //File exists
+            bw2 = new BufferedWriter(new FileWriter(errorsFileOut));
+        } else {
+        //File does not exist
+            bw2 = new BufferedWriter(new FileWriter(errorsFileOut));
+        }
+        while(true){
+            Token token = lexer.yylex();
+            if(token == null){
+                break;
+            }
+            if(token == Token.ERROR){
+                errors++;
+                //ResultadoArchivoErrores += ":"+ lexer.chars + "\tNot valid token:'"+"'\n";
+                fileErrors =  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer;
+                lexer.myLexer = "ERROR";
+                bw2.write(fileErrors);
+                bw2.newLine();
+            }
+            else{
+                if(token == Token.CONTROLSTRUCT){
+                       if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        fileErrors = "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer+ "' must be in lower case.";
+                        bw2.write(fileErrors);
+                        bw2.newLine();
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                }
+                }else if(token == Token.DB){                   
+                    String content = lexer.myLexer.substring(12, lexer.myLexer.length()-2);
+                    System.out.println(content);
+                    if(!content.equals(content.toUpperCase())){
+                        fileErrors = "Line: " + lexer.countLine + ". Database '" + lexer.myLexer+ "' must be in upper case.";
+                        content = content.toUpperCase();
+                        lexer.myLexer = "$recordset['"+content+"']";
+                    }
+                }
+                bw.write(lexer.myLexer);
+            }     
+        }
+        bw.close();
+        bw2.close();
     }
+    
+    public static void generateLexer(String path){
+        File file = new File(path);
+        jflex.Main.generate(file);
+}
+    
     public static void infoBox(String infoMessage, String titleBar)
     {
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
