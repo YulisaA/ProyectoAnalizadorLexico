@@ -38,6 +38,7 @@ hexadecimal = 0[xX][0-9a-fA-F]+
 octal = 0[0-7]+
 decimal	= [1-9][0-9]*|0
 binary = 0[bB][01]+
+
 label = [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 parenthesis = "("|")"
 brackets = "["|"]"
@@ -47,12 +48,8 @@ semicolon = ";"
 newLine = [\n]+
 blankspace = [ \t\r]+
 questionMark = "?"
-scape = "\\"
 split = "|"
-twoPoints = "\:"
-at = "\@"
-dollar = "\$"
-power = "^"
+twoPoints = ":"
 
 /*RESERVED WORDS*/
 reserved_words  =  ((a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))
@@ -63,17 +60,15 @@ logic_operator = "and"|"or"|"xor"|"!"|"&&"|"||"
 compare_operator = "<"|">"|"<="|">="|"=="|"!="
 count_operator = "--"|"++"
 assign_operator = "="|"+="|"-="|"*="|"/="
+at = "@"
 
 /*TYPES*/
 bool_type = {f}{a}{l}{s}{e}|{t}{r}{u}{e}
 int_type = [+-]?({decimal}|{hexadecimal}|{octal}|{binary})
 double_type = [-+]?[0-9]*\.?[0-9]+([eE]{int_type}.?[0-9]*)?
 
-/*stringSimple = ('([^(')(\n)]|\\')*')
-StringDouble = (\"([^(\")(\n)]|\\\")*\") */
-
-stringSimple = ('([^(')(\n)]|\\')*')
-stringDouble = (\"([^(\")(\n)(\\)("|")]\")*\") 
+stringSimple = ('([^'\n\\]|\\.)*')
+stringDouble = (\"([^\"\n\\]|\\.)*\")
 
 string_type = {stringSimple}|{stringDouble}
 
@@ -153,11 +148,8 @@ public int chars = 0;
 {coma}          {chars += yytext().length(); myLexer=yytext(); return COMA;}
 {semicolon}     {chars += yytext().length(); myLexer=yytext(); return SEMICOLON;}
 {questionMark}  {chars += yytext().length(); myLexer=yytext(); return QMARK;}
-{scape}         {chars += yytext().length(); myLexer=yytext(); return SCAPE;}
 {split}         {chars += yytext().length(); myLexer=yytext(); return SPLIT;}
 {twoPoints}     {chars += yytext().length(); myLexer=yytext(); return TWOPOINTS;}
 {at}            {chars += yytext().length(); myLexer=yytext(); return AT;}
-{dollar}        {chars += yytext().length(); myLexer=yytext(); return DOLLAR;}
-{power}         {chars += yytext().length(); myLexer=yytext(); return POWER;}
 \.              {chars += yytext().length(); myLexer=yytext(); return CONCAT;}
 .               {chars += yytext().length(); myLexer = yytext();return ERROR;}

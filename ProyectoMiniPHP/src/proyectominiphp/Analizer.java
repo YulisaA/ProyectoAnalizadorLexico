@@ -47,6 +47,7 @@ public class Analizer extends javax.swing.JFrame {
         jButtonSelectFile = new javax.swing.JButton();
         jTextField = new javax.swing.JTextField();
         jButtonUpload = new javax.swing.JButton();
+        textArea = new java.awt.TextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -84,6 +85,7 @@ public class Analizer extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButtonUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 180, 170, 40));
+        getContentPane().add(textArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 360, 210));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -120,6 +122,8 @@ public class Analizer extends javax.swing.JFrame {
         Reader reader = new BufferedReader(new FileReader(jTextField.getText()));
         Lexer lexer = new Lexer(reader);
         String fileErrors = "";
+        String showErrors = "";
+        String outFile = "";
         int errors = 0;
         
         String name = address.getName();
@@ -155,33 +159,41 @@ public class Analizer extends javax.swing.JFrame {
             if(token == Token.ERROR){
                 errors++;
                 //ResultadoArchivoErrores += ":"+ lexer.chars + "\tNot valid token:'"+"'\n";
-                fileErrors =  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer;
+                showErrors +=  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer + "\n";
+                fileErrors +=  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer+ "\n";
                 lexer.myLexer = "ERROR";
-                bw2.write(fileErrors);
-                bw2.newLine();
             }
             else{
                 if(token == Token.CONTROLSTRUCT){
                        if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
-                        fileErrors = "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer+ "' must be in lower case.";
-                        bw2.write(fileErrors);
-                        bw2.newLine();
+                        showErrors += "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer+ "' must be in lower case." + "\n";
+                        //fileErrors +=  "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer + "' must be in lower case." + "\n";
                         lexer.myLexer = lexer.myLexer.toLowerCase();
                 }
                 }else if(token == Token.DB){                   
                     String content = lexer.myLexer.substring(12, lexer.myLexer.length()-2);
                     System.out.println(content);
                     if(!content.equals(content.toUpperCase())){
-                        fileErrors = "Line: " + lexer.countLine + ". Database '" + lexer.myLexer+ "' must be in upper case.";
+                        showErrors += "Line: " + lexer.countLine + ". Database '" + lexer.myLexer+ "' must be in upper case." + "\n";                      
                         content = content.toUpperCase();
                         lexer.myLexer = "$recordset['"+content+"']";
                     }
                 }
-                bw.write(lexer.myLexer);
+                outFile += lexer.myLexer;
             }     
         }
+        if(errors == 0)
+        {          
+            bw.write(outFile);
+        }
+        else
+        {
+            bw2.write(fileErrors);
+        }
+        
         bw.close();
         bw2.close();
+        textArea.setText(showErrors);
     }
     
     public static void generateLexer(String path){
@@ -234,5 +246,6 @@ public class Analizer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField;
+    private java.awt.TextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
