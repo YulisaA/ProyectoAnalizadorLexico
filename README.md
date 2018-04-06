@@ -9,7 +9,7 @@ Se utilizó NetBeans IDE 8.2
 
 ## Funcionamiento
 
-El proyecto puede ser ejecutado desde NetBeans o desde el ejecutable ```ProyectoMiniPHP.jar``` que se encuentra en la carpeta del proyecto, en la siguiente dirección: "\ProyectoAnalizadorLexico\ProyectoMiniPHP\dist\ProyectoMiniPHP.jar"
+El proyecto puede ser ejecutado desde NetBeans.
 
 1. La interfaz gráfica es la siguiente:
 
