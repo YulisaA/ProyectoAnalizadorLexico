@@ -171,11 +171,11 @@ public class Analizer extends javax.swing.JFrame {
                 fileErrors +=  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer+ "\n";
                 lexer.myLexer = "ERROR";
             }
+            //Verify syntaxis
             else{
                 if(token == Token.CONTROLSTRUCT){
                        if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
-                        showErrors += "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer+ "' must be in lower case." + "\n";
-                        //fileErrors +=  "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer + "' must be in lower case." + "\n";
+                        showErrors += "Line: " + lexer.countLine + ". Control structure '" + lexer.myLexer+ "' must be in lower case." + "\n";                       
                         lexer.myLexer = lexer.myLexer.toLowerCase();
                 }
                 }else if(token == Token.DB){                   
@@ -230,7 +230,7 @@ public class Analizer extends javax.swing.JFrame {
                 }
                 else if(token == Token.PREVAR2){
                     if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
-                        showErrors += "Line: " + lexer.countLine + ". Predeterminated variable: '" + lexer.myLexer+ "' must be in upper case." + "\n";                       
+                        showErrors += "Line: " + lexer.countLine + ". Predeterminated variable: '" + lexer.myLexer+ "' must be in lower case." + "\n";                       
                         lexer.myLexer = lexer.myLexer.toLowerCase();
                     }                  
                 }
