@@ -1,1 +1,45 @@
-# Proyecto-Analizador-L-xico
+# PROYECTO ANALIZADOR LÉXICO
+## Revisor y corrector de archivos en PHP 
+
+El proyecto consiste en un Analizador Léxico para archivos .php, se utilizó la herramienta JFlex la cual genera un archivo .java a partir de un archivo .flex que contiene las expresiones regulares que corresponden al lenguaje, en este caso, php. Se verifica si los tokens del archivo de entrada corresponden a los tokens definidos por las expresiones regulares. Si son iguales, entonces el token pertenece al lenguaje evaluado.
+
+## IDE utilizado
+
+Se utilizó NetBeans IDE 8.2
+
+## Funcionamiento
+
+El proyecto puede ser ejecutado desde NetBeans o desde el ejecutable ```ProyectoMiniPHP.jar``` que se encuentra en la carpeta del proyecto, en la siguiente dirección: "\ProyectoAnalizadorLexico\ProyectoMiniPHP\dist\ProyectoMiniPHP.jar"
+
+1. La interfaz gráfica es la siguiente:
+
+![enter image description here](https://lh3.googleusercontent.com/EMN_M6vZO6amcZ1Grl1AO5RnXLawUmFIg90wimAJoZsuiHEYLsZQ-IOsxdeQLP9W0-MOcCmWOnvqv1_PRdboZodEzAyTA4nl-hGxxi-yaibdZ2jA9DjKe1ibthoynvsR8KZwLyE1Md1VxYElXbGtQmRpQ7n6C8Wy-T2eLLRZ1XGNb0mLnSZMW2Ruia1l_rnOg9TX4-antSzANDG11TF92K1l-fpvnSsK4OUqAQMbsm5jSrdoCOg9cNqLsqID0MWbBiK6qjnO61tAYIaCg-WiacYMXj2nntlHWznqgZQbYlLWYoBAbeWI2wmjGpDuN3mqfNm8b-lAUUv_r36BERRY04QM9PQ1C_6VP3g2QWrm2Zn2_SsHWd2fzTWpXajOWMMwJZ4mxOGCvxdW3Jsa_dA8uoboz_T9WZAvYjiYVW_NABcQYsvX-u06NLM8gDyuYbTKaVT9myaJ3B1zqsLTnzP49leu6BkyTxZw6gTJYmcjpBY1j441k_heNiG7F58vos-c2dfjpPQWI5SuRzBdbMJauJkAZEVIgV_OC1SPgTi9ojeaxXocNhAJ5tq3GOOqVAauVU2HJfFlokrYXcxOVkN9BnCmLxmPmdk6ZYleDs4=w587-h497-no)
+
+Se tiene un botón llamado ```SELECCIONAR ARCHIVO```, al dar click se abre el explorador de archivos de manera que se pueda escoger el archivo.php a analizar. 
+
+![enter image description here](https://lh3.googleusercontent.com/iYjdQQ5MUoYRn88PGX3slegeCkYSjWDLWLUh9tRxxL0qhHYq3cSjsk1pw92GwnOwInQThU7Z7rT8G-i475ticJUolleDth3ssZqHjGJHzB0LlEOSm54KZPv2XAtnN-U01TAmoKDUUNO_8aeS4JvZs69E-Bdx3-Y3x2rRqIb8_qOWz3vpBwO-GQbLqvwoaMuR6JMWXNIkfOaMIU7pgFz52BoHy2MGzmx7n5AeGAdtKT8DDACxjengy2JBF8z1bzusqdxg1Z6LWYugeiZdfZs0tmHaDhXJ-GQ0AGgctDayHUiv3CwdBhN95SorB5Kibr2sHcbquqmwzXPImqW2DgZjxpYmNMF4TamCbcJzGVM5kZ_0vfpRhNaxleD0dK_kf6zC5S-rQhdEyAZ9KE8xluT1pxsQWr-L6CFOy3joCkDO3GrPkBtqsXytSlDppnThiEmlFv4HUS8-mhGZ01L5i0RAM5zeki6rRPIFPUvCAYnpiDFKUen6GLmmSzRYXG4Nk5klBNZcRMQcJpH8l4uyVSVdJ38IfXUsJX1m54lWpwF2gqGEeMFRWntNk2svKF42wAMaW1R6omXpQZ1yXcafxqtXjJ7z8lUq0iEQrCajhEc=w585-h499-no)
+
+2. Ya cargado el archivo.php a analizar, click en ```ANALIZAR ARCHIVO```, si el archivo contenía errores se muestra el siguiente mensaje indicando la dirección en la que se encuentra el archivo ```errorsFile.out```. 
+
+![enter image description here](https://lh3.googleusercontent.com/p2D5wHDlggO5NU0Y1kOJ7k-rDzyXhRMvkXt1nSWantLOc66ya7gnW2_kRDwXhpNj_oOLrUsshCZnZ-ZaVSziCPFGg2nH5Hvgn_-H9xiq5788rFPwLYCSkZCLx66p4JVWiFQypeuV8N91dVYRxDMbkfgkGuuuZXxNKGxi4TGwUoSPSCZzbcbHZJh1v11kYvf2n7pF0id7KXwMknq2j1QRmLwAW7GiOSkIPqyhkFt-cbaXdUudQBMGGvx62xvxKZl7-BeCz2Nd6dQiQfidIVsKm_xrzylwCpKdSqTSNo1-VFKO4mgFSS18rrzAhUS292KcI6aYMKjO9J3sI6wZa08Zd7wgXGxEnrLtxNv5QzEtWBrlcnh-LqsXL3qra18ebwb3TmYWIk4oJq5MKH7p2Zm8Yc-w6TDaBvIXJ6iwTuks9s-r9DlrGUCevHH8FaYmlQMkK3_ptnqXJCdZdRYQLwpF418Na4WImwxi8dhCnoN9hmOin7R4EdetRWqCBsHSfytk4ioP8rMLK0QXKH4qdIB4uWMdzpCRxynNKu21vtmbDFvCd2rcF_tVRMlTnZGzG4Td28Yokqe7ofX13YXef8j3qI0_Z2aRbWf3Gs5c0bY=w717-h118-no)
+
+El archivo ```errorsFile.out``` contiene el número de línea en la que se obtuvo el error y el caracter que produjo el error para que sea fácil para el usuario corregir el error. Este archivo se muestra de la siguiente manera: 
+
+![enter image description here](https://lh3.googleusercontent.com/S2Ga6BQuyA9_6aVQoMZWY3EKGDA1bN-M6hBQbs3AxS9pAvcKA8CKtTh6ahQtLRLu7bPZfL2IdCaAzlivNlLZ1e82nWptNwQU2K2XiOIW6zOyj1N6hpaWFp8ERpWSjpQ2KT6MzdSE-3Z8NRJKS6KTpYu9_KLeR7Ln2WXU726UOxqIIKKASm6Zorm-fObcS6bb-uzVFrR1aZNMNjCJFx93TfY86Uj8GcK20cPM9cPi7NsyzNjn7fNGwGVWIBnFj5VROgysOP16Wfr7sQv46zmTIExVy38iZxxR9ZuhTNTnsM1Mf4MhVvUCINbYjIsrl-g0lZCflsRRFBVD2djeJNh5hRlYyHo6Cf29AFBBknr6DE1mU9MGIdKxvcjMUa1HS506t4NBDv7BzvVThMPgFYdaPSpnQDNwA2mvFaDWmBUevXcWe4FbeOLLf_LvLo5Gx9QVJb6JPdiMQm65IrkpeY2efeZaBO8aNQAOjvOQKfNKDKvWSYtqAKWBWre_DtzcjLGM0IZPQV3t2wRT-9f1-D0iURitoPalz8LRF4rwk8llJVxhfa6uQ9NVk0d4bMDBslebXty5slnVLmW3f1L-4av85dGL8F2dGj-HnrBt3bc=w253-h79-no)
+
+3. Además, también se muestra en la interfaz gráfica el listado de errores incluidos aquellos de sintaxis acerca de mayúsculas y minúsculas. 
+
+![enter image description here](https://lh3.googleusercontent.com/KDCLxg3C6zjNdRteftc1nKKS4Z-eF30NpVykqFNgfvHcOSu532i_iXZcmRGyLqHkDMMd5kH3nROesi4uZtSGQ3C3l-l6jSwcfsibQaEiiCeGsQu1nu1XgrBNdbsSn_-d7ZEXH7KuHmy1hFLR-JZmUwz6y4ig7Ujs9DQ8VsJDgPpJXw-UJirgsq6q_T9iEfkpzSIbY5tfKeVk9d2ZW9U8jr0G7HFXAGgUwTQISdpdAw_Ap1qhc2oUrWYiCxoR8JdXx7njsoJhdkpcRsOdF2kLSy07fE1W1Kyur68gdk_85rDJV20T9d0ie4QF3-9J8whAvy5qakruGO3UnhG2-onHfGfVrtrED-W2Je9-a9FHT0yORMWMeU2obTUCG_l4K8JSxmuCau_kPSSFhT6uyWM2f5Mz63Gftez-onA9r-15dzjvfbnVUwU7asW6dw8ZQyXkHp0uOKKR6O2z5DJ7Vqdx8Mlzd6-PeB4rQLB9Q750zE9UJSJQ68y8aHb_hSx1qV9ED473wxEL5JbFCxeMYU7epmISXFuXSH6TFhz539r4itniesEXSIMPtWLKpcanb396i8aR35_Qd_v0VmyllN46zKKATKs_9gWEl6rxaRQ=w588-h503-no)
+
+4. Si el archivo.php no contiene errores, entonces se muestra el siguiente mensaje, indicando la dirección en la que se encuentra el archivo.out 
+
+![enter image description here](https://lh3.googleusercontent.com/KJFcPfVrip43QXNtws2hrPOVuW7KqCmOBKCAYMdzbVLZHHg9m1qJY2_5G2tklfhtkDg_XuXsDtu6chEnk0hsPz-PjvnmqcTkM3JuuLZDdMIxp4TkTFKL92eEraXwK1c5HPgqojkmeelB9owk6TwiK9U5xdz0mlFvVVhxGgzUhrqxzoVQ4sq-3YDqY7Orkhfxk5LFLzVoUvowV0MK5QdeMgRfq9NCfPUC4of15X8sDv25hrsRw68Nzn7pawIKBRKFyIdv8ekkqjRaMCG27mRlXIyqxsUuXfigKEAcT20QaeVVKDqii955e0AGtwkB5jwbq4ZkRO_IWWIX3FMlcmEMV_Cqln4rF-BLqbB7AhzVRXaZf5GEPd5cXnACA2ydj9CLHWe7uE00bgSyx8ygiqJykRPghXYVwed6yXc7QdXp_2nMj_Qq1L_whg5kjJ1nwHgAtxgrQnrurGES2njuDO82ppETil2NZeStcOXNI0dUYcVE79TI4P4tM3e8k5qZg_OyFPWiMdpZXJNUqOrqsvivUIrRezkyoEqO9nRUm05cSzw_9FZr49vYm4SkIYZf_311Wjd2XNv23nsINpTS8wK6Y-jiuf6p0RBpM7KyKZ4=w437-h116-no)
+
+5. El archivo.out tiene el mismo nombre que el archivo.php de entrada, solo cambia la extensión. El el archivo.out se muestra el código php y se corrigen errores de sintaxis de mayúsculas a minúsculas o viceversa, depende de la definición del lenguaje php. 
+
+![enter image description here](https://lh3.googleusercontent.com/QM2Pe6reE9AxfVGWpU4A86dvgC_SuxOpLFEx-tR9JASGtYfeTFSByJjVTPXMZrU4Be0FeSlENU2K2dHqk3A4uUkeAzESY8N4fO-a3Xi1Xy74B_u7TLS19xb7meahZHQLGdsXkHyDlg3Gwf5jO-edo2UrHmYyZDx2zIkBXaYPplwqRCEscnXxZZDqUbkivYkuyn-yifl3VxwoMSLeHBjU5fea51LV7irJkifRwKzaKilv2X1QJkE83EE6nV6s4mNrxtpLfInUOKrExBC8TsDQOei38frNB6C7TQA7zlg_f-XqbzrhtqZv9th4Lktp8vNO_fKP1ZMW9GEKKeACxPFbbm4EAgvWgGA3GMVTCrgDks6-bY6N4Udu-oBHU39z67tcjx7Hqhg0zXj1PvwL60kk27JwD6qG_7SUPMOETMTdch900uopnZApI401spwKjT7bYoElthqWYnYU8f5a3BeAmlYGD9kc6QV7VMUm0LTQeQbeGSXQg_negTh11w2j-4ojafDysjLaTi4EmL_i9rsDBPdaF54gFZiMiH_9ukShKFgHjQohhcVpRFEQBjOqXcfvucODp1OihEyCXerBBCjVpuLA2uxTey61cDooxuY=w342-h240-no)
+
+Considero que el programa funciona correctamente porque verifica por medio de expresiones regulares, todas las definiciones lexicográficas de php que indica el enunciado del proyecto, además de verificar si la sintaxis de mayúsculas y minúsculas es correcta. El proyecto es robusto porque tiene un buen manejo de errores al mostrar al usuario en qué número de línea se encuentra el error y cuál es el caracter que lo generó. 
+
+
+
