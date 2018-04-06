@@ -589,7 +589,7 @@ class Lexer {
 
   /* user code: */
 public String myLexer;
-public int countLine = 0;
+public int countLine = 1;
 public int chars = 0;
 
 

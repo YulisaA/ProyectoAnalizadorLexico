@@ -48,17 +48,21 @@ public class Analizer extends javax.swing.JFrame {
         jTextField = new javax.swing.JTextField();
         jButtonUpload = new javax.swing.JButton();
         textArea = new java.awt.TextArea();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("ANALIZADOR LÉXICO");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 40));
 
-        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 153));
         jLabel2.setText("MiniPHP");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 158, 53));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 200, 53));
 
         jButtonSelectFile.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButtonSelectFile.setText("SELECCIONAR ARCHIVO");
@@ -72,10 +76,10 @@ public class Analizer extends javax.swing.JFrame {
                 jButtonSelectFileActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonSelectFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 170, 30));
+        getContentPane().add(jButtonSelectFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 120, 170, 40));
 
         jTextField.setEditable(false);
-        getContentPane().add(jTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 340, 30));
+        getContentPane().add(jTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 340, 40));
 
         jButtonUpload.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jButtonUpload.setText("ANALIZAR ARCHIVO");
@@ -84,8 +88,13 @@ public class Analizer extends javax.swing.JFrame {
                 jButtonUploadActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 180, 170, 40));
-        getContentPane().add(textArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 360, 210));
+        getContentPane().add(jButtonUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 170, 40));
+
+        textArea.setEditable(false);
+        getContentPane().add(textArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 590, 210));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/590x300.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 260));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -139,7 +148,7 @@ public class Analizer extends javax.swing.JFrame {
             bw = new BufferedWriter(new FileWriter(fileOut));
         }
 
-        addressErrorsFileOut = address.getPath().replace(name, "errors.out");
+        addressErrorsFileOut = address.getPath().replace(name, "fileErrors.out");
       
         File errorsFileOut = new File(addressErrorsFileOut);
         BufferedWriter bw2;
@@ -171,7 +180,6 @@ public class Analizer extends javax.swing.JFrame {
                 }
                 }else if(token == Token.DB){                   
                     String content = lexer.myLexer.substring(12, lexer.myLexer.length()-2);
-                    System.out.println(content);
                     if(!content.equals(content.toUpperCase())){
                         showErrors += "Line: " + lexer.countLine + ". Database '" + lexer.myLexer+ "' must be in upper case." + "\n";                      
                         content = content.toUpperCase();
@@ -187,6 +195,42 @@ public class Analizer extends javax.swing.JFrame {
                 else if(token == Token.PRECONSTANT){
                     if(!lexer.myLexer.equals(lexer.myLexer.toUpperCase())){
                         showErrors += "Line: " + lexer.countLine + ". Predetermined constant: '" + lexer.myLexer+ "' must be in upper case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toUpperCase();
+                    }                  
+                }
+                else if(token == Token.PHP){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        showErrors += "Line: " + lexer.countLine + ". " + lexer.myLexer+ "' must be in lower case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                    }                  
+                }
+                else if(token == Token.RESERVEDWORDS){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Reserved words: '" + lexer.myLexer+ "' must be in lower case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                    }                  
+                }
+                else if(token == Token.BOOL){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Bool type: '" + lexer.myLexer+ "' must be in lower case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                    }                  
+                }
+                else if(token == Token.FUNCTION){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Function: '" + lexer.myLexer+ "' must be in lower case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                    }                  
+                }
+                else if(token == Token.PREVAR){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toUpperCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Predeterminated variable: '" + lexer.myLexer+ "' must be in upper case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toUpperCase();
+                    }                  
+                }
+                else if(token == Token.PREVAR2){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Predeterminated variable: '" + lexer.myLexer+ "' must be in upper case." + "\n";                       
                         lexer.myLexer = lexer.myLexer.toLowerCase();
                     }                  
                 }
@@ -258,6 +302,7 @@ public class Analizer extends javax.swing.JFrame {
     private javax.swing.JButton jButtonUpload;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField;
     private java.awt.TextArea textArea;
     // End of variables declaration//GEN-END:variables

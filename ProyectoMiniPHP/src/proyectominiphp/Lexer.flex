@@ -98,7 +98,8 @@ case	=					{c}{a}{s}{e}
 control_structures	=			{if}|{else}|{elseif}|{endif}|{endwhile}|{endfor}|{endforeach}|{endswitch}|{while}|{do}|{for}|{foreach}|{break}|{switch}|{include}|{continue}|{return}|{case}
 
 /*PREDETERMINED VARIABLES*/
-predeterminated_variables = "$"(GLOBALS|(_(SERVER|GET|POST|FILES|COOKIE|SESSION|REQUEST|ENV))|php_errormsg|HTTP_RAW_POST_DATA|http_response_header|argc|argv)
+predeterminated_variablesL = "$"(GLOBALS|(_(SERVER|GET|POST|FILES|COOKIE|SESSION|REQUEST|ENV))|HTTP_RAW_POST_DATA)
+predeterminated_variablesU = "$"(php_errormsg|http_response_header|argc|argv)
 
 /*FUNCTIONS*/
 function = function
@@ -113,7 +114,7 @@ recordset = "$"{r}{e}{c}{o}{r}{d}{s}{e}{t}"["{string_type}"]"
 
 %{
 public String myLexer;
-public int countLine = 0;
+public int countLine = 1;
 public int chars = 0;
 %}
 %%
@@ -131,7 +132,8 @@ public int chars = 0;
 {id_constant}               {chars += yytext().length(); myLexer=yytext(); return CONSTANT;}
 {predetermined_constant}    {chars += yytext().length(); myLexer=yytext(); return PRECONSTANT;}
 {control_structures}        {chars += yytext().length(); myLexer=yytext(); return CONTROLSTRUCT;}
-{predeterminated_variables} {chars += yytext().length(); myLexer=yytext(); return PREVAR;}
+{predeterminated_variablesL} {chars += yytext().length(); myLexer=yytext(); return PREVAR;}
+{predeterminated_variablesU} {chars += yytext().length(); myLexer=yytext(); return PREVAR2;}
 {function}                  {chars += yytext().length(); myLexer=yytext(); return FUNCTION;}
 {comment}                   {chars += yytext().length(); if(yytext().contains("\n")){chars=0; countLine++;} myLexer=yytext(); return COMMENT;}
 {recordset}                 {chars += yytext().length(); myLexer=yytext(); return DB;}
