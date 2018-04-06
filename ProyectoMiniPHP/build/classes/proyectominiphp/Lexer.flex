@@ -39,7 +39,7 @@ octal = 0[0-7]+
 decimal	= [1-9][0-9]*|0
 binary = 0[bB][01]+
 
-label = [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
+label = [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]* 
 parenthesis = "("|")"
 brackets = "["|"]"
 keys = "{"|"}"
@@ -47,6 +47,7 @@ coma = ","
 semicolon = ";"
 newLine = [\n]+
 blankspace = [ \t\r]+
+html = (("<html>")~("<?php"))
 
 /*RESERVED WORDS*/
 reserved_words  =  ((a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))
@@ -58,6 +59,7 @@ compare_operator = "<"|">"|"<="|">="|"=="|"!="
 count_operator = "--"|"++"
 assign_operator = "="|"+="|"-="|"*="|"/="|"%="|".="|"&="|"|="|"^="|"<<"|">>"|"<<="|">>="|"|"|"^"
 at = "@"
+err_op = "=!="
 
 /*TYPES*/
 bool_type = {f}{a}{l}{s}{e}|{t}{r}{u}{e}
@@ -65,16 +67,13 @@ int_type = [+-]?({decimal}|{hexadecimal}|{octal}|{binary})
 double_type = [-+]?[0-9]*\.?[0-9]+([eE]{int_type}.?[0-9]*)?
 
 stringSimple = ('([^'\n\\]|\\.)*')
-stringDouble = (\"([^\"\n\\]|\\.)*\")
+stringDouble = (\"([^\"\\]|\\.)*\")
 string_type = {stringSimple}|{stringDouble}
 
 /*IDENTIFIERS AND VARIABLES*/
 id_variable = "$"{label}
 id_constant = {label}
 validateNumVar = ({int_type}|{double_type})({id_constant}|{id_variable})
-
-/*CONSTANTS*/
-predetermined_constant = (__)(LINE|FILE|DIR|FUNCTION|CLASS|TRAIT|METHOD|NAMESPACE)(__)
 
 /*CONTROL STRUCTURES*/
 if      =				        {i}{f}|"?"|":"
@@ -97,16 +96,21 @@ return	=					{r}{e}{t}{u}{r}{n}
 case	=					{c}{a}{s}{e}
 control_structures	=			{if}|{else}|{elseif}|{endif}|{endwhile}|{endfor}|{endforeach}|{endswitch}|{while}|{do}|{for}|{foreach}|{break}|{switch}|{include}|{continue}|{return}|{case}
 
+/*FUNCTIONS*/
+function = {f}{u}{n}{c}{t}{i}{o}{n}
+
+/*CONSTANTS*/
+predetermined_constant = (__)(LINE|FILE|DIR|FUNCTION|CLASS|TRAIT|METHOD|NAMESPACE)(__)
+
 /*PREDETERMINED VARIABLES*/
 predeterminated_variablesL = "$"(GLOBALS|(_(SERVER|GET|POST|FILES|COOKIE|SESSION|REQUEST|ENV))|HTTP_RAW_POST_DATA)
 predeterminated_variablesU = "$"(php_errormsg|http_response_header|argc|argv)
 
-/*FUNCTIONS*/
-function = function
 
 /*COMMENTS*/
 oneline_comment = ("//"|"#")(.)*
-multiline_comment = (("/*")([^("*/")])*("*/"))
+multiline_comment = (("/*")~("*/"))
+multiline_err = (("/*")~(\n))
 comment = {oneline_comment}|{multiline_comment}
 
 /*DATABASE*/
@@ -129,7 +133,6 @@ public int chars = 0;
 {double_type}   {chars += yytext().length(); myLexer=yytext(); return DOUBLE;}
 {string_type}   {chars += yytext().length(); myLexer=yytext(); return STRING;}
 {id_variable}               {chars += yytext().length(); myLexer=yytext(); return IDVAR;}
-{id_constant}               {chars += yytext().length(); myLexer=yytext(); return CONSTANT;}
 {predetermined_constant}    {chars += yytext().length(); myLexer=yytext(); return PRECONSTANT;}
 {control_structures}        {chars += yytext().length(); myLexer=yytext(); return CONTROLSTRUCT;}
 {predeterminated_variablesL} {chars += yytext().length(); myLexer=yytext(); return PREVAR;}
@@ -148,4 +151,8 @@ public int chars = 0;
 {at}            {chars += yytext().length(); myLexer=yytext(); return AT;}
 \.              {chars += yytext().length(); myLexer=yytext(); return CONCAT;}
 {validateNumVar} {chars += yytext().length(); myLexer = yytext();return ERROR;}
+{id_constant}               {chars += yytext().length(); myLexer=yytext(); return CONSTANT;}
 .               {chars += yytext().length(); myLexer = yytext();return ERROR;}
+{multiline_err} {chars += yytext().length(); myLexer = yytext();return ERROR;}
+{err_op}        {chars += yytext().length(); myLexer = yytext();return ERROR;}
+{html}          {chars += yytext().length(); myLexer = yytext();return HTML;}

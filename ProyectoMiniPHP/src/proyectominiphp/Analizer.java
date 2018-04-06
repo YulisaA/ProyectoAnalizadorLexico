@@ -49,6 +49,7 @@ public class Analizer extends javax.swing.JFrame {
         jButtonUpload = new javax.swing.JButton();
         textArea = new java.awt.TextArea();
         jLabel3 = new javax.swing.JLabel();
+        textArea1 = new java.awt.TextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -91,10 +92,13 @@ public class Analizer extends javax.swing.JFrame {
         getContentPane().add(jButtonUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 170, 40));
 
         textArea.setEditable(false);
-        getContentPane().add(textArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 590, 210));
+        getContentPane().add(textArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 260, 290, 210));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/590x300.jpg"))); // NOI18N
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 260));
+
+        textArea1.setEditable(false);
+        getContentPane().add(textArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 290, 210));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -130,6 +134,7 @@ public class Analizer extends javax.swing.JFrame {
         Reader reader = new BufferedReader(new FileReader(jTextField.getText()));
         Lexer lexer = new Lexer(reader);
         String fileErrors = "";
+        String showErrors1 = "";
         String showErrors = "";
         String outFile = "";
         int errors = 0;
@@ -167,7 +172,7 @@ public class Analizer extends javax.swing.JFrame {
             if(token == Token.ERROR){
                 errors++;
                 //ResultadoArchivoErrores += ":"+ lexer.chars + "\tNot valid token:'"+"'\n";
-                showErrors +=  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer + "\n";
+                showErrors1 +=  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer + "\n";
                 fileErrors +=  "Line: " + lexer.countLine + ". No valid token: " + lexer.myLexer+ "\n";
                 lexer.myLexer = "ERROR";
             }
@@ -251,6 +256,7 @@ public class Analizer extends javax.swing.JFrame {
         bw.close();
         bw2.close();
         textArea.setText(showErrors);
+        textArea1.setText(showErrors1);
     }
     
     public static void generateLexer(String path){
@@ -305,5 +311,6 @@ public class Analizer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField;
     private java.awt.TextArea textArea;
+    private java.awt.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }
