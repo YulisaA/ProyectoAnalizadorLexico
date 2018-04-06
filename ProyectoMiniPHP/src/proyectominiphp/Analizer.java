@@ -112,7 +112,6 @@ public class Analizer extends javax.swing.JFrame {
             String path = root + "\\src\\proyectominiphp\\Lexer.flex";
             generateLexer(path);
             this.analizeLexer();
-            infoBox("Successful", "Missing File");
        } catch (IOException ex) {
             infoBox("Seleccionar un archivo", "Missing File");    
         }
@@ -179,16 +178,30 @@ public class Analizer extends javax.swing.JFrame {
                         lexer.myLexer = "$recordset['"+content+"']";
                     }
                 }
+                else if(token == Token.LOGOPERATOR){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toLowerCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Logical operator: '" + lexer.myLexer+ "' must be in lower case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                    }
+                }
+                else if(token == Token.PRECONSTANT){
+                    if(!lexer.myLexer.equals(lexer.myLexer.toUpperCase())){
+                        showErrors += "Line: " + lexer.countLine + ". Predetermined constant: '" + lexer.myLexer+ "' must be in upper case." + "\n";                       
+                        lexer.myLexer = lexer.myLexer.toLowerCase();
+                    }                  
+                }
                 outFile += lexer.myLexer;
             }     
         }
         if(errors == 0)
         {          
             bw.write(outFile);
+            infoBox("Successful. File .out in: " + addressFileOut, "File");
         }
         else
         {
             bw2.write(fileErrors);
+            infoBox("File contains errors. A file was generated with information about the errors in: " + addressErrorsFileOut, "Error");
         }
         
         bw.close();

@@ -47,19 +47,16 @@ coma = ","
 semicolon = ";"
 newLine = [\n]+
 blankspace = [ \t\r]+
-questionMark = "?"
-split = "|"
-twoPoints = ":"
 
 /*RESERVED WORDS*/
 reserved_words  =  ((a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))
 
 /*OPERATORS*/
 arithmetic_operator = "+"|"-"|"*"|"/"|"%"|"**"
-logic_operator = "and"|"or"|"xor"|"!"|"&&"|"||"
+logic_operator = {a}{n}{d}|{o}{r}|{x}{o}{r}|"!"|"&&"|"||"
 compare_operator = "<"|">"|"<="|">="|"=="|"!="
 count_operator = "--"|"++"
-assign_operator = "="|"+="|"-="|"*="|"/="
+assign_operator = "="|"+="|"-="|"*="|"/="|"%="|".="|"&="|"|="|"^="|"<<"|">>"|"<<="|">>="|"|"|"^"
 at = "@"
 
 /*TYPES*/
@@ -69,18 +66,18 @@ double_type = [-+]?[0-9]*\.?[0-9]+([eE]{int_type}.?[0-9]*)?
 
 stringSimple = ('([^'\n\\]|\\.)*')
 stringDouble = (\"([^\"\n\\]|\\.)*\")
-
 string_type = {stringSimple}|{stringDouble}
 
 /*IDENTIFIERS AND VARIABLES*/
 id_variable = "$"{label}
 id_constant = {label}
+validateNumVar = ({int_type}|{double_type})({id_constant}|{id_variable})
 
 /*CONSTANTS*/
 predetermined_constant = (__)(LINE|FILE|DIR|FUNCTION|CLASS|TRAIT|METHOD|NAMESPACE)(__)
 
 /*CONTROL STRUCTURES*/
-if      =				        {i}{f}
+if      =				        {i}{f}|"?"|":"
 else	=					{e}{l}{s}{e}
 elseif	=					{e}{l}{s}{e}{i}{f}
 endif	=					{e}{n}{d}{i}{f}
@@ -108,7 +105,7 @@ function = function
 
 /*COMMENTS*/
 oneline_comment = ("//"|"#")(.)*
-multiline_comment = (("/*")([^(("*/"))])*("*/"))
+multiline_comment = (("/*")([^("*/")])*("*/"))
 comment = {oneline_comment}|{multiline_comment}
 
 /*DATABASE*/
@@ -138,7 +135,6 @@ public int chars = 0;
 {function}                  {chars += yytext().length(); myLexer=yytext(); return FUNCTION;}
 {comment}                   {chars += yytext().length(); if(yytext().contains("\n")){chars=0; countLine++;} myLexer=yytext(); return COMMENT;}
 {recordset}                 {chars += yytext().length(); myLexer=yytext(); return DB;}
-
 {php}           {chars += yytext().length(); myLexer=yytext(); return PHP;}
 {newLine}       {chars = 0; countLine++; myLexer="\n"; return NEWLINE;}
 {blankspace}    {chars += yytext().length(); myLexer=yytext(); return BLANKSPACE;}
@@ -147,9 +143,7 @@ public int chars = 0;
 {keys}          {chars += yytext().length(); myLexer=yytext(); return KEYS;}
 {coma}          {chars += yytext().length(); myLexer=yytext(); return COMA;}
 {semicolon}     {chars += yytext().length(); myLexer=yytext(); return SEMICOLON;}
-{questionMark}  {chars += yytext().length(); myLexer=yytext(); return QMARK;}
-{split}         {chars += yytext().length(); myLexer=yytext(); return SPLIT;}
-{twoPoints}     {chars += yytext().length(); myLexer=yytext(); return TWOPOINTS;}
 {at}            {chars += yytext().length(); myLexer=yytext(); return AT;}
 \.              {chars += yytext().length(); myLexer=yytext(); return CONCAT;}
+{validateNumVar} {chars += yytext().length(); myLexer = yytext();return ERROR;}
 .               {chars += yytext().length(); myLexer = yytext();return ERROR;}
